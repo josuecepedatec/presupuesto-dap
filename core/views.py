@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import status
@@ -21,6 +21,10 @@ def login_view(request):
         form = LoginForm(request)
     return render(request, 'login.html', {'form': form})
 
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 @api_view(['POST'])
 def crear_factura(request):
@@ -56,3 +60,4 @@ def facturas(request):
 @login_required(redirect_field_name='next', login_url='/login/')
 def presupuestos(request):
     return render(request, 'presupuestos.html')
+
