@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import index, login_view, crear_factura, facturas, presupuestos, logout_view
+from .views import index, login_view, crear_factura, facturas, presupuestos, logout_view, PresupuestoListView
 
 urlpatterns = [
     path('', index, name='index'),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('crear-factura/', crear_factura, name='crear_factura'),
+    path('api/presupuestos/', PresupuestoListView.as_view(), name='presupuesto-list'),
 ]

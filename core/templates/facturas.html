@@ -11,20 +11,28 @@
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IVA</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subtotal</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Presupuesto ID</th>
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       {% for factura in page_obj %}
         <tr>
-          <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-6 py-4 whitespace-nowrap">
             <a href="{{ factura.pdf.url }}" target="_blank">{{ factura.pdf.name }}</a>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ factura.cantidad }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ factura.precio_unitario }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ factura.descripcion }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ factura.iva }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ factura.subtotal }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ factura.total }}</td>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.cantidad }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.precio_unitario }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.descripcion }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+            {% if factura.iva %}
+                Si
+            {% else %}
+                No
+            {% endif %}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.subtotal }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.total }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.presupuesto.presupuesto_id }}</td>
         </tr>
       {% endfor %}
     </tbody>
@@ -38,7 +46,7 @@
     <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
       <div>
         <p class="text-sm text-gray-700">
-          Mostranto
+          Mostrando
           <span class="font-medium">{{ page_obj.start_index }}</span>
           a
           <span class="font-medium">{{ page_obj.end_index }}</span>

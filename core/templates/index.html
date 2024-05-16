@@ -29,7 +29,7 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="cantidad">Cantidad</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cantidad" type="number" name="cantidad">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cantidad" type="text" name="cantidad" step="0.01">
                 <div id="cantidad-error" class="text-red-500"></div>
             </div>
             <div class="mb-4">
@@ -49,9 +49,17 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="presupuesto">Presupuesto ID</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="presupuesto" type="number" name="presupuesto">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="presupuesto" name="presupuesto">
+                    <!-- Opciones del select serán cargadas dinámicamente aquí -->
+                    <option></option>
+                </select>
                 <div id="presupuesto-error" class="text-red-500"></div>
             </div>
+            {% comment %} <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="presupuesto">Presupuesto ID</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="presupuesto" type="number" name="presupuesto">
+                <div id="presupuesto-error" class="text-red-500"></div>
+            </div> {% endcomment %}
             <div class="flex items-center justify-between">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Guardar</button>
             </div>
@@ -60,6 +68,19 @@
     </div>
 </div>
 <script>
+    fetch('/api/presupuestos/')
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById('presupuesto');
+        data.forEach(presupuesto => {
+            const option = document.createElement('option');
+            option.value = presupuesto.id;
+            option.textContent = presupuesto.presupuesto_id;
+            select.appendChild(option);
+        });
+    })
+    .catch(error => console.error('Error:', error));
+
     document.getElementById("form-crear-factura").addEventListener("submit", function(event) {
         event.preventDefault();
         var form = this;

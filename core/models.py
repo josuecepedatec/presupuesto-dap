@@ -10,21 +10,22 @@ class BaseModel(models.Model):
 
 
 class Presupuesto(BaseModel):
-    monto = models.PositiveBigIntegerField()
-    monto_original = models.PositiveBigIntegerField()
+    presupuesto_id = models.CharField(max_length=100, unique=True)
+    monto = models.FloatField()
+    monto_original = models.FloatField()
 
     def  __str__(self) -> str:
-        return f'{self.id}'
+        return f'{self.presupuesto_id}'
 
 
 class Factura(BaseModel):
     pdf = models.FileField(upload_to='pdfs')
-    cantidad = models.PositiveBigIntegerField()
-    precio_unitario = models.PositiveBigIntegerField()
+    cantidad = models.FloatField()
+    precio_unitario = models.FloatField()
     descripcion = models.TextField()
     iva = models.BooleanField()
-    subtotal = models.PositiveBigIntegerField(null=True, blank=True)
-    total = models.PositiveBigIntegerField(null=True, blank=True)
+    subtotal = models.FloatField(null=True, blank=True)
+    total = models.FloatField(null=True, blank=True)
     presupuesto = models.ForeignKey(Presupuesto, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
