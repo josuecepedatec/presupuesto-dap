@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuestos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gray-800 p-4">
+        <div class="flex justify-between items-center">
+            <div class="text-white font-bold text-lg">Sitio</div>
+            <div class="flex space-x-4">
+                <a href="/" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md">Inicio</a>
+                <a href="/facturas/" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md">Facturas</a>
+                <a href="/presupuestos/" class="text-white hover:bg-gray-700 px-3 py-2 rounded-md">Presupuestos</a>
+            </div>
+        </div>
+    </nav>
+{% block content %}
+
+{% endblock %}
+</body>
+</html>
