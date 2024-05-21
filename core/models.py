@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class BaseModel(models.Model):
@@ -78,6 +79,10 @@ class Presupuesto(BaseModel):
     def  __str__(self) -> str:
         return f'{self.presupuesto_id}'
 
+    def clean(self):
+        if self.total2 != 100:
+            raise ValidationError('Total2 (No mayor a 100%) es diferente a 100%')
+
     def save(self, *args, **kwargs):
         self.subtotal = self.cantidad * self.precio_unitario
 
@@ -88,6 +93,8 @@ class Presupuesto(BaseModel):
             self.total = self.subtotal
 
         self.total2 = self.the_learning_gate + self.aula_virtual + self.live + self.en_linea + self.posgrados_presencial + self.posgrados_en_linea
+
+
 
         self.s1_0700399A03 = self.aula_virtual + self.live
         self.s1_0870399A06 = self.en_linea
@@ -100,6 +107,8 @@ class Presupuesto(BaseModel):
         self.s2_0700399A31 = self.s1_0700399A31 * self.total
         self.s2_0705103A00 = self.s1_0705103A00 * self.total
         self.s2_0875103A00 = self.s1_0875103A00 * self.total
+        
+        self.clean()
 
         super().save(*args, **kwargs)
 

@@ -56,8 +56,18 @@
           <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.cantidad }}</td>
           <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.precio_unitario }}</td>
           <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.subtotal }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.lleva_iva }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.iva }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {% if presupuesto.lleva_iva %}
+              Si
+            {% else %}
+              No
+            {% endif %}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            {% if presupuesto.iva %}
+              ${{ presupuesto.iva  }}
+            {% endif %}
+          </td>
           <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.total }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.the_learning_gate }}%</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.aula_virtual }}%</td>
