@@ -1,26 +1,87 @@
 {% extends "base.html" %}
 
 {% block content %}
-<table class="min-w-full divide-y divide-gray-200">
-<thead class="bg-gray-50">
-    <tr>
-    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Presupuesto ID</th>
-    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto restante</th>
-    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto Original</th>
-    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Facturas</th>
-    </tr>
-</thead>
-<tbody class="bg-white divide-y divide-gray-200">
-    {% for presupuesto in page_obj %}
-    <tr>
-        <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.presupuesto_id }}</td>
-        <td class="px-6 py-4 whitespace-nowrap">$ {{ presupuesto.monto }}</td>
-        <td class="px-6 py-4 whitespace-nowrap">$ {{ presupuesto.monto_original }}</td>
-        <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.num_facturas }}</td>
-    </tr>
-    {% endfor %}
-</tbody>
-</table>
+<div class="table-wrp block min-h-100 overflow-x-auto">
+
+  <table class="w-full">
+    <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Presupuesto ID</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto restante</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto Original</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Facturas</th>
+
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Área</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subárea</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proveedor</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de Gasto</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unitario</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subtotal</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">¿Lleva IVA?</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IVA</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">The Learning Gate</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aula Virtual</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Live</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">En Linea</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Posgrados Presencial</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Posgrados En Linea</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total (No mayor a 100)</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A03</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0870399A06</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A31</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0705103A00</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0875103A00</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A03</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0870399A06</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A31</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0705103A00</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0875103A00</th>
+      
+      
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      {% for presupuesto in page_obj %}
+      <tr>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.presupuesto_id }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">$ {{ presupuesto.monto }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">$ {{ presupuesto.monto_original }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.num_facturas }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.area }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.sub_area }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.proveedor }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.tipo_de_gasto }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.cantidad }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.precio_unitario }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.subtotal }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.lleva_iva }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.iva }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.total }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.the_learning_gate }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.aula_virtual }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.live }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.en_linea }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.posgrados_presencial }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.posgrados_en_linea }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.total2 }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.s1_0700399A03 }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.s1_0870399A06 }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.s1_0700399A31 }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.s1_0705103A00 }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ presupuesto.s1_0875103A00 }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.s2_0700399A03 }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.s2_0870399A06 }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.s2_0700399A31 }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.s2_0705103A00 }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${{ presupuesto.s2_0875103A00 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
     <div class="flex-1 flex justify-between sm:hidden">
       <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">Previous</a>
@@ -55,4 +116,6 @@
       </div>
     </div>
   </div>
+</div>
+
 {% endblock content %}
