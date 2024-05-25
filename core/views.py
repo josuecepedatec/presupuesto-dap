@@ -9,9 +9,33 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from .models import Factura, Presupuesto
+from .models import Factura, Presupuesto, UserAreaOrSubArea
 from .forms import LoginForm, FacturaForm
 from .serializers import FacturaSerializer, PresupuestoSerializer
+
+
+
+
+def presupuestos_query(request):
+    qs = Presupuesto.objects.all()
+    if request.user.is_superuser:
+        return qs
+    try:
+        u = UserAreaOrSubArea.objects.get(user=request.user)
+        area = u.area
+        sub_area = u.sub_area
+
+        if area.nombre == 'General':
+            return qs
+
+        if sub_area and sub_area.nombre != 'No_Aplica':
+            return qs.filter(area__id=area.pk, sub_area__id=sub_area.pk)
+        if area:
+            return qs.filter(area__id=area.pk)
+
+    except UserAreaOrSubArea.DoesNotExist:
+        pass
+    return qs.none()
 
 
 def login_view(request):
@@ -59,7 +83,12 @@ def index(request):
 
 @login_required(redirect_field_name='next', login_url='/login/')
 def facturas(request):
-    facturas = Factura.objects.all()
+
+    presupuestos = presupuestos_query(request)
+
+    # facturas = Factura.objects.all()
+    
+    facturas = Factura.objects.filter(presupuesto__in=presupuestos)
     paginator = Paginator(facturas, 15)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -68,7 +97,8 @@ def facturas(request):
 
 @login_required(redirect_field_name='next', login_url='/login/')
 def presupuestos(request):
-    presupuestos_list = Presupuesto.objects.annotate(num_facturas=Count('factura'))
+    # presupuestos_list = Presupuesto.objects.annotate(num_facturas=Count('factura'))
+    presupuestos_list = presupuestos_query(request).annotate(num_facturas=Count('factura'))
     paginator = Paginator(presupuestos_list, 15)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -77,6 +107,6 @@ def presupuestos(request):
 
 class PresupuestoListView(APIView):
     def get(self, request):
-        presupuestos = Presupuesto.objects.all()
+        presupuestos = presupuestos_query(request)
         serializer = PresupuestoSerializer(presupuestos, many=True)
         return Response(serializer.data)

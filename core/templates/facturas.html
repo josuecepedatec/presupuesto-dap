@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<table class="min-w-full divide-y divide-gray-200">
+<div class="table-wrp block min-h-100 overflow-x-auto">
+
+  <table class="w-full">
     <thead class="bg-gray-50">
       <tr>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PDF</th>
@@ -12,6 +14,19 @@
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subtotal</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Presupuesto ID</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cesta</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Orden de Compra</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Folio de Entrada</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A03</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0870399A06</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A31</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0705103A00</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0875103A00</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A03</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0870399A06</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0700399A31</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0705103A00</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">0875103A00</th>
       </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
@@ -33,43 +48,69 @@
             <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.subtotal }}</td>
             <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.total }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ factura.presupuesto.presupuesto_id }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              {% if factura.cesta %}
+               {{ factura.cesta  }}
+              {% endif %}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              {% if factura.orden_de_compra %}
+               {{ factura.orden_de_compra  }}
+              {% endif %}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              {% if factura.folio_de_entrada %}
+               {{ factura.folio_de_entrada  }}
+              {% endif %}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.presupuesto.s1_0700399A03 }}%</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.presupuesto.s1_0870399A06 }}%</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.presupuesto.s1_0700399A31 }}%</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.presupuesto.s1_0705103A00 }}%</td>
+            <td class="px-6 py-4 whitespace-nowrap">{{ factura.presupuesto.s1_0875103A00 }}%</td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.presupuesto.s2_0700399A03 }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.presupuesto.s2_0870399A06 }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.presupuesto.s2_0700399A31 }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.presupuesto.s2_0705103A00 }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">$ {{ factura.presupuesto.s2_0875103A00}}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-  
-  <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-    <div class="flex-1 flex justify-between sm:hidden">
-      <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">Previous</a>
-      <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">Next</a>
+</div>
+<div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+  <div class="flex-1 flex justify-between sm:hidden">
+    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">Previous</a>
+    <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">Next</a>
+  </div>
+  <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+    <div>
+      <p class="text-sm text-gray-700">
+        Mostrando
+        <span class="font-medium">{{ page_obj.start_index }}</span>
+        a
+        <span class="font-medium">{{ page_obj.end_index }}</span>
+        de
+        <span class="font-medium">{{ page_obj.paginator.count }}</span>
+        resultados
+      </p>
     </div>
-    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-      <div>
-        <p class="text-sm text-gray-700">
-          Mostrando
-          <span class="font-medium">{{ page_obj.start_index }}</span>
-          a
-          <span class="font-medium">{{ page_obj.end_index }}</span>
-          de
-          <span class="font-medium">{{ page_obj.paginator.count }}</span>
-          resultados
-        </p>
-      </div>
-      <div>
-        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
-        {% endif %}
+    <div>
+      <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+      {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+      {% endif %}
 
-        {% for num in page_obj.paginator.page_range %}
-            <a href="?page={{ num }}" class="{% if page_obj.number == num %}relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50{% else %}relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50{% endif %}">{{ num }}</a>
-        {% endfor %}
+      {% for num in page_obj.paginator.page_range %}
+          <a href="?page={{ num }}" class="{% if page_obj.number == num %}relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50{% else %}relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50{% endif %}">{{ num }}</a>
+      {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Siguiente</a>
-        {% endif %}
-        </nav>
-      </div>
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Siguiente</a>
+      {% endif %}
+      </nav>
     </div>
   </div>
+</div>
+
 {% endblock content %}

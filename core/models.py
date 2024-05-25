@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 
 
 class BaseModel(models.Model):
@@ -36,7 +37,15 @@ class TipoDeGasto(BaseModel):
 
     def  __str__(self) -> str:
         return self.nombre
+    
 
+class UserAreaOrSubArea(BaseModel):
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    sub_area = models.ForeignKey(SubArea, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.user.username
 
 class Presupuesto(BaseModel):
     presupuesto_id = models.CharField(max_length=100, unique=True)
@@ -80,8 +89,10 @@ class Presupuesto(BaseModel):
         return f'{self.presupuesto_id}'
 
     def clean(self):
+        self.total2 = self.the_learning_gate + self.aula_virtual + self.live + self.en_linea + self.posgrados_presencial + self.posgrados_en_linea
+
         if self.total2 != 100:
-            raise ValidationError('Total2 (No mayor a 100%) es diferente a 100%')
+            raise ValidationError(f'Total2 (No mayor a 100%) es diferente a 100% ({self.total2})')
 
     def save(self, *args, **kwargs):
         self.subtotal = self.cantidad * self.precio_unitario
@@ -91,10 +102,6 @@ class Presupuesto(BaseModel):
             self.total = self.subtotal * 1.16
         else:
             self.total = self.subtotal
-
-        self.total2 = self.the_learning_gate + self.aula_virtual + self.live + self.en_linea + self.posgrados_presencial + self.posgrados_en_linea
-
-
 
         self.s1_0700399A03 = self.aula_virtual + self.live
         self.s1_0870399A06 = self.en_linea
@@ -124,6 +131,10 @@ class Factura(BaseModel):
     presupuesto = models.ForeignKey(Presupuesto, on_delete=models.CASCADE)
 
     proveedor = models.ForeignKey(Proveedor, null=True, on_delete=models.SET_NULL)
+
+    cesta = models.CharField(max_length=100, null=True, blank=True)
+    orden_de_compra = models.CharField(max_length=100, null=True, blank=True)
+    folio_de_entrada = models.CharField(max_length=100, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.subtotal:
