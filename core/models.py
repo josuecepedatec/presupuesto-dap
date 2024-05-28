@@ -43,9 +43,11 @@ class UserAreaOrSubArea(BaseModel):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     sub_area = models.ForeignKey(SubArea, on_delete=models.CASCADE)
+    puede_editar_monto = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.user.username
+
 
 class Presupuesto(BaseModel):
     presupuesto_id = models.CharField(max_length=100, unique=True)
